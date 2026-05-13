@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="減重衝刺">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi5ris6YeN6KGd5Yi65Y+I6Jyh6KiIIiwic2hvcnRfbmFtZSI6IuabjOmHjeihns+OaXN0IiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZlZjNjNyIsInRoZW1lX2NvbG9yIjoiI2ZiYmYyNCJ9">
+    <title>四週減脂衝刺計畫 - 離線版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .install-banner {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .install-banner.show {
+            display: block;
+        }
+
+        .install-text {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .install-button {
+            background: white;
+            color: #059669;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 24px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .offline-indicator {
+            background: #ef4444;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            display: none;
+        }
+
+        .offline-indicator.show {
+            display: block;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            color: #fef3c7;
+            font-size: 14px;
+        }
+
+        .nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 16px 8px;
+            border: none;
+            background: white;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-button.active {
+            border-bottom-color: #fbbf24;
+            color: #f59e0b;
+        }
+
+        .nav-button:active {
+            background: #f9fafb;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #fef3c7;
+        }
+
+        .completion-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #fef3c7;
+        }
+
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .completion-date {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .completion-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .completion-score {
+            text-align: right;
+        }
+
+        .completion-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+
+        .completion-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 999px;
+            transition: width 0.5s ease;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #fbbf24;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-row > div {
+            flex: 1;
+        }
+
+        .fasting-summary {
+            background: #fef3c7;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .fasting-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .fasting-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .check-item:hover {
+            background: #f9fafb;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .checkbox.checked {
+            background: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        .check-label {
+            flex: 1;
+            color: #374151;
+        }
+
+        .water-progress, .steps-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .water-bar, .steps-bar {
+            flex: 1;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .water-fill {
+            height: 100%;
+            background: #60a5fa;
+            border-radius: 999px;
+            transition: width 0.3s;
+        }
+
+        .steps-fill {
+            height: 100%;
+            background: #34d399;
+            border-radius: 999px;
+            transition: width 0.3s;
+        }
+
+        .weekly-card {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .weekly-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .weekly-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .weekly-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #fef3c7;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .photo-upload {
+            border: 2px dashed #fbbf24;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .photo-upload:hover {
+            background: #fef3c7;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .photo-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 192px;
+            object-fit: cover;
+        }
+
+        .photo-date {
+            padding: 12px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #9ca3af;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .settings-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .info-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .backup-section {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .backup-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .backup-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .backup-button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #3b82f6;
+            color: white;
+        }
+
+        .backup-button:active {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offline-indicator">
+        ⚠️ 目前離線模式 - 所有資料儲存在手機本地
+    </div>
+
+    <!-- Install Banner -->
+    <div class="install-banner" id="install-banner">
+        <p class="install-text">📱 將此 app 加入主畫面,離線也能使用!</p>
+        <button class="install-button" onclick="showInstallInstructions()">了解如何安裝</button>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                </svg>
+                <h1>四週減脂衝刺計畫</h1>
+            </div>
+            <p class="header-subtitle">六月日本行倒數!讓我們一起達標 🎯 [離線版]</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button class="nav-button active" onclick="switchView('today')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span class="nav-label">今日戰況</span>
+        </button>
+        <button class="nav-button" onclick="switchView('weekly')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                <polyline points="17 6 23 6 23 12"/>
+            </svg>
+            <span class="nav-label">本週成績</span>
+        </button>
+        <button class="nav-button" onclick="switchView('photos')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span class="nav-label">體態記錄</span>
+        </button>
+        <button class="nav-button" onclick="switchView('settings')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span class="nav-label">設定</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Today View -->
+        <div id="today-view" class="view active">
+            <div class="completion-card">
+                <div class="completion-header">
+                    <div>
+                        <p class="completion-date" id="today-date"></p>
+                        <h2 class="completion-title">今日完成度</h2>
+                    </div>
+                    <div class="completion-score">
+                        <div class="completion-number" id="completion-rate">0%</div>
+                        <p class="completion-text" id="completion-text">還有進步空間</p>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="completion-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">⏰ 斷食視窗</h3>
+                <div class="input-row">
+                    <div>
+                        <label class="input-label">第一口食物</label>
+                        <input type="time" class="input-field" id="fasting-start" onchange="updateFasting()">
+                    </div>
+                    <div>
+                        <label class="input-label">最後一口</label>
+                        <input type="time" class="input-field" id="fasting-end" onchange="updateFasting()">
+                    </div>
+                </div>
+                <div class="fasting-summary">
+                    <span class="fasting-label">斷食時數</span>
+                    <span class="fasting-value" id="fasting-hours">0 小時</span>
+                </div>
+                <p id="fasting-status" style="text-align: center; font-size: 12px; color: #6b7280; margin-top: 8px;"></p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">🛌 作息與基礎</h3>
+                <div class="check-item" onclick="toggleCheck('sleep')">
+                    <div class="checkbox" id="check-sleep"></div>
+                    <span class="check-label">昨晚睡滿 7 小時</span>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">今日飲水量 (目標: 2275-2500cc)</label>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <input type="number" class="input-field" id="water-amount" placeholder="0" oninput="updateWater()">
+                        <span style="color: #6b7280; font-weight: 500;">cc</span>
+                    </div>
+                    <div class="water-progress">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                        </svg>
+                        <div class="water-bar">
+                            <div class="water-fill" id="water-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">🍽️ 飲食防線</h3>
+                <div class="check-item" onclick="toggleCheck('eating-order')">
+                    <div class="checkbox" id="check-eating-order"></div>
+                    <span class="check-label">進食順序正確 (水→菜→肉→澱粉)</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck('good-fat')">
+                    <div class="checkbox" id="check-good-fat"></div>
+                    <span class="check-label">攝取好油脂 (酪梨/堅果/橄欖油/鮭魚)</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck('avoid-bad')">
+                    <div class="checkbox" id="check-avoid-bad"></div>
+                    <span class="check-label">避開地雷 (高普林/精緻糖/加工食品)</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">🏃 活動量填補</h3>
+                <div class="input-group">
+                    <label class="input-label">今日步數 (目標: 6000步)</label>
+                    <input type="number" class="input-field" id="steps" placeholder="0" oninput="updateSteps()">
+                    <div class="steps-progress" id="steps-progress" style="display: none;">
+                        <div class="steps-bar">
+                            <div class="steps-fill" id="steps-fill" style="width: 0%"></div>
+                        </div>
+                        <span style="font-size: 12px; color: #6b7280;" id="steps-percent">0%</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">今日運動</label>
+                    <select class="input-field" id="exercise" onchange="saveData()">
+                        <option value="">今天休息</option>
+                        <option value="重訓">重訓</option>
+                        <option value="器械皮拉提斯">器械皮拉提斯</option>
+                        <option value="Zumba">Zumba</option>
+                        <option value="跑步機">跑步機</option>
+                        <option value="其他">其他運動</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">📏 體態指標 (每週量1-2次)</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label class="input-label">腰圍 (cm)</label>
+                        <input type="number" step="0.1" class="input-field" id="waist" placeholder="95.0" oninput="saveData()">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">體重 (kg)</label>
+                        <input type="number" step="0.1" class="input-field" id="weight" placeholder="91.0" oninput="saveData()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly, Photos, Settings views remain the same as previous version -->
+        <div id="weekly-view" class="view">
+            <div class="weekly-card">
+                <div class="weekly-header">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="7"/>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                    </svg>
+                    <h2 class="weekly-title">本週戰績</h2>
+                </div>
+                <div class="weekly-stats">
+                    <div class="stat-box">
+                        <p class="stat-label">平均完成度</p>
+                        <p class="stat-value" id="weekly-completion">0%</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-label">打卡天數</p>
+                        <p class="stat-value" id="weekly-days">0/7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="photos-view" class="view">
+            <div class="card">
+                <h2 class="card-title">📸 體態變化記錄</h2>
+                <label class="photo-upload">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" style="margin: 0 auto 8px;">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    <p style="color: #6b7280; font-weight: 500; margin-bottom: 4px;">點擊上傳今日照片</p>
+                    <p style="font-size: 12px; color: #9ca3af;">建議固定角度與時間拍攝</p>
+                    <input type="file" accept="image/*" onchange="addPhoto(event)" style="display: none;">
+                </label>
+            </div>
+            <div id="photo-grid" class="photo-grid"></div>
+            <div id="empty-photos" class="empty-state">
+                <p>還沒有照片記錄</p>
+                <p style="font-size: 14px; margin-top: 8px;">開始記錄你的變化吧!</p>
+            </div>
+        </div>
+
+        <div id="settings-view" class="view">
+            <div class="settings-section">
+                <h2 class="settings-title">斷食設定</h2>
+                <div class="input-group">
+                    <label class="input-label">每日目標斷食時數</label>
+                    <select class="input-field" id="fasting-target" onchange="saveSettings()">
+                        <option value="10">10 小時 (溫和入門)</option>
+                        <option value="12">12 小時 (基礎斷食)</option>
+                        <option value="14" selected>14 小時 (推薦)</option>
+                        <option value="16">16 小時 (進階)</option>
+                        <option value="20">20 小時 (接近OMAD)</option>
+                        <option value="23">23 小時 (一日一餐)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2 class="settings-title">目標設定</h2>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label class="input-label">起始腰圍</label>
+                        <input type="number" step="0.1" class="input-field" id="start-waist-input" value="95" oninput="saveSettings()">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">目標腰圍</label>
+                        <input type="number" step="0.1" class="input-field" id="target-waist-input" value="80" oninput="saveSettings()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">起始體重</label>
+                    <input type="number" step="0.1" class="input-field" id="start-weight-input" value="91" oninput="saveSettings()">
+                </div>
+            </div>
+
+            <div class="backup-section">
+                <div class="backup-title">
+                    💾 資料備份 (完全離線儲存)
+                </div>
+                <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">
+                    所有資料儲存在您的 iPhone 本地,不會上傳到任何地方
+                </p>
+                <div class="backup-buttons">
+                    <button class="backup-button" onclick="exportData()">匯出備份</button>
+                    <button class="backup-button" onclick="document.getElementById('import-file').click()">匯入備份</button>
+                </div>
+                <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display: none;">
+            </div>
+
+            <div class="info-box">
+                <p class="info-text">
+                    💡 <strong>小提醒:</strong> 這份工具的設計,是讓你專注在「對的行為」而非數字。每天睡前回顧打勾,保持彈性與好心情才是瘦得久的秘訣!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check online/offline status
+        function updateOnlineStatus() {
+            const indicator = document.getElementById('offline-indicator');
+            if (!navigator.onLine) {
+                indicator.classList.add('show');
+            } else {
+                indicator.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // Show install banner on iOS Safari
+        function checkInstallPrompt() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isStandalone = window.navigator.standalone;
+            
+            if (isIOS && !isStandalone) {
+                document.getElementById('install-banner').classList.add('show');
+            }
+        }
+
+        function showInstallInstructions() {
+            alert('📱 如何安裝:\n\n1. 點擊 Safari 下方的「分享」按鈕 (方框+箭頭)\n2. 向下滑動找到「加入主畫面」\n3. 點擊「加入」\n4. 完成!離線也能使用');
+        }
+
+        // Storage keys
+        const STORAGE_KEY = 'diet-tracker-data-v2';
+        const PHOTOS_KEY = 'diet-tracker-photos-v2';
+        const SETTINGS_KEY = 'diet-tracker-settings-v2';
+
+        let currentData = {};
+        let allRecords = {};
+        let photos = [];
+        let settings = {
+            fastingTarget: 14,
+            startWaist: 95,
+            targetWaist: 80,
+            startWeight: 91
+        };
+
+        function init() {
+            checkInstallPrompt();
+            updateOnlineStatus();
+            loadAllData();
+            updateTodayDate();
+            loadTodayData();
+            loadSettings();
+        }
+
+        function getToday() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function updateTodayDate() {
+            const date = new Date();
+            const formatted = date.toLocaleDateString('zh-TW', { 
+                month: 'long', 
+                day: 'numeric', 
+                weekday: 'short' 
+            });
+            document.getElementById('today-date').textContent = formatted;
+        }
+
+        function loadAllData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) allRecords = JSON.parse(saved);
+
+                const savedPhotos = localStorage.getItem(PHOTOS_KEY);
+                if (savedPhotos) photos = JSON.parse(savedPhotos);
+
+                const savedSettings = localStorage.getItem(SETTINGS_KEY);
+                if (savedSettings) settings = JSON.parse(savedSettings);
+            } catch (e) {
+                console.error('載入資料失敗:', e);
+            }
+        }
+
+        function loadTodayData() {
+            const today = getToday();
+            currentData = allRecords[today] || {
+                date: today,
+                fastingStart: '',
+                fastingEnd: '',
+                fastingHours: 0,
+                sleep: false,
+                water: 0,
+                eatingOrder: false,
+                goodFat: false,
+                avoidBad: false,
+                steps: 0,
+                exercise: '',
+                waist: null,
+                weight: null
+            };
+
+            document.getElementById('fasting-start').value = currentData.fastingStart || '';
+            document.getElementById('fasting-end').value = currentData.fastingEnd || '';
+            document.getElementById('water-amount').value = currentData.water || '';
+            document.getElementById('steps').value = currentData.steps || '';
+            document.getElementById('exercise').value = currentData.exercise || '';
+            document.getElementById('waist').value = currentData.waist || '';
+            document.getElementById('weight').value = currentData.weight || '';
+
+            updateCheckbox('sleep', currentData.sleep);
+            updateCheckbox('eating-order', currentData.eatingOrder);
+            updateCheckbox('good-fat', currentData.goodFat);
+            updateCheckbox('avoid-bad', currentData.avoidBad);
+
+            updateFasting();
+            updateWater();
+            updateSteps();
+            calculateCompletion();
+        }
+
+        function saveData() {
+            const today = getToday();
+            allRecords[today] = currentData;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(allRecords));
+            calculateCompletion();
+        }
+
+        function loadSettings() {
+            document.getElementById('fasting-target').value = settings.fastingTarget;
+            document.getElementById('start-waist-input').value = settings.startWaist;
+            document.getElementById('target-waist-input').value = settings.targetWaist;
+            document.getElementById('start-weight-input').value = settings.startWeight;
+        }
+
+        function saveSettings() {
+            settings.fastingTarget = parseInt(document.getElementById('fasting-target').value);
+            settings.startWaist = parseFloat(document.getElementById('start-waist-input').value);
+            settings.targetWaist = parseFloat(document.getElementById('target-waist-input').value);
+            settings.startWeight = parseFloat(document.getElementById('start-weight-input').value);
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+            updateFasting();
+            calculateCompletion();
+        }
+
+        function toggleCheck(id) {
+            const key = id.replace(/-/g, '');
+            const mapping = {
+                'sleep': 'sleep',
+                'eatingorder': 'eatingOrder',
+                'goodfat': 'goodFat',
+                'avoidbad': 'avoidBad'
+            };
+            const dataKey = mapping[key];
+            currentData[dataKey] = !currentData[dataKey];
+            updateCheckbox(id, currentData[dataKey]);
+            saveData();
+        }
+
+        function updateCheckbox(id, checked) {
+            const checkbox = document.getElementById('check-' + id);
+            if (checked) {
+                checkbox.classList.add('checked');
+                checkbox.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+            } else {
+                checkbox.classList.remove('checked');
+                checkbox.innerHTML = '';
+            }
+        }
+
+        function updateFasting() {
+            const start = document.getElementById('fasting-start').value;
+            const end = document.getElementById('fasting-end').value;
+            
+            currentData.fastingStart = start;
+            currentData.fastingEnd = end;
+
+            if (start && end) {
+                const [sh, sm] = start.split(':').map(Number);
+                const [eh, em] = end.split(':').map(Number);
+                let minutes = (eh * 60 + em) - (sh * 60 + sm);
+                if (minutes < 0) minutes += 24 * 60;
+                const hours = Math.round(minutes / 60);
+                currentData.fastingHours = hours;
+                
+                document.getElementById('fasting-hours').textContent = hours + ' 小時';
+                
+                const status = document.getElementById('fasting-status');
+                if (hours >= settings.fastingTarget) {
+                    status.textContent = '✓ 已達標!';
+                    status.style.color = '#10b981';
+                } else {
+                    status.textContent = `目標: ${settings.fastingTarget} 小時`;
+                    status.style.color = '#6b7280';
+                }
+            } else {
+                currentData.fastingHours = 0;
+                document.getElementById('fasting-hours').textContent = '0 小時';
+                document.getElementById('fasting-status').textContent = '';
+            }
+
+            saveData();
+        }
+
+        function updateWater() {
+            const amount = parseInt(document.getElementById('water-amount').value) || 0;
+            currentData.water = amount;
+            const percent = Math.min((amount / 2500) * 100, 100);
+            document.getElementById('water-fill').style.width = percent + '%';
+            saveData();
+        }
+
+        function updateSteps() {
+            const steps = parseInt(document.getElementById('steps').value) || 0;
+            currentData.steps = steps;
+            
+            if (steps > 0) {
+                const percent = Math.min((steps / 6000) * 100, 100);
+                document.getElementById('steps-progress').style.display = 'flex';
+                document.getElementById('steps-fill').style.width = percent + '%';
+                document.getElementById('steps-percent').textContent = Math.round(percent) + '%';
+            } else {
+                document.getElementById('steps-progress').style.display = 'none';
+            }
+            
+            saveData();
+        }
+
+        function calculateCompletion() {
+            const checks = [
+                currentData.fastingHours >= settings.fastingTarget,
+                currentData.sleep,
+                currentData.water >= 2275,
+                currentData.eatingOrder,
+                currentData.goodFat,
+                currentData.avoidBad,
+                currentData.steps >= 6000
+            ];
+            
+            const rate = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+            
+            document.getElementById('completion-rate').textContent = rate + '%';
+            document.getElementById('completion-bar').style.width = rate + '%';
+            
+            const text = document.getElementById('completion-text');
+            if (rate >= 80) {
+                text.textContent = '太棒了!';
+            } else if (rate >= 60) {
+                text.textContent = '繼續加油!';
+            } else {
+                text.textContent = '還有進步空間';
+            }
+        }
+
+        function addPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const photo = {
+                    id: Date.now(),
+                    date: getToday(),
+                    data: e.target.result
+                };
+                photos.push(photo);
+                localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
+                updatePhotosView();
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function updatePhotosView() {
+            const grid = document.getElementById('photo-grid');
+            const empty = document.getElementById('empty-photos');
+            
+            if (photos.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                grid.innerHTML = photos.sort((a, b) => b.id - a.id).map(photo => `
+                    <div class="photo-item">
+                        <img src="${photo.data}" class="photo-img" alt="體態記錄">
+                        <div class="photo-date">${new Date(photo.date).toLocaleDateString('zh-TW')}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function exportData() {
+            const backup = {
+                records: allRecords,
+                photos: photos,
+                settings: settings,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(backup, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `減重記錄備份_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            alert('✅ 備份檔案已下載!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backup = JSON.parse(e.target.result);
+                    
+                    if (confirm('⚠️ 確定要匯入備份嗎?\n這會覆蓋目前的所有資料!')) {
+                        allRecords = backup.records || {};
+                        photos = backup.photos || [];
+                        settings = backup.settings || settings;
+                        
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(allRecords));
+                        localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
+                        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+                        
+                        alert('✅ 備份已成功匯入!');
+                        location.reload();
+                    }
+                } catch (err) {
+                    alert('❌ 備份檔案格式錯誤!');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.nav-button').classList.add('active');
+            
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(view + '-view').classList.add('active');
+            
+            if (view === 'photos') {
+                updatePhotosView();
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
