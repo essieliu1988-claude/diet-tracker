@@ -736,31 +736,63 @@
             currentData.fastingStart = start;
             currentData.fastingEnd = end;
 
+            let hours = 0;
+            
+            // 如果有開始和結束時間,計算當日斷食
             if (start && end) {
                 const [sh, sm] = start.split(':').map(Number);
                 const [eh, em] = end.split(':').map(Number);
                 let minutes = (eh * 60 + em) - (sh * 60 + sm);
                 if (minutes < 0) minutes += 24 * 60;
-                const hours = Math.round(minutes / 60);
-                currentData.fastingHours = hours;
+                hours = Math.round(minutes / 60);
+            }
+            // 如果只有今天的開始時間,檢查昨天的結束時間
+            else if (start && !end) {
+                const yesterday = getPreviousDate(currentViewDate);
+                const yesterdayRecord = allRecords[yesterday];
                 
-                document.getElementById('fasting-hours').textContent = hours + ' 小時';
-                
+                if (yesterdayRecord && yesterdayRecord.fastingEnd) {
+                    // 從昨天最後一口到今天第一口
+                    const [sh, sm] = start.split(':').map(Number);
+                    const [yeh, yem] = yesterdayRecord.fastingEnd.split(':').map(Number);
+                    
+                    // 計算跨日時間
+                    const todayMinutes = sh * 60 + sm;
+                    const yesterdayMinutes = yeh * 60 + yem;
+                    let fastingMinutes = (24 * 60 - yesterdayMinutes) + todayMinutes;
+                    hours = Math.round(fastingMinutes / 60);
+                    
+                    // 顯示提示
+                    const status = document.getElementById('fasting-status');
+                    status.textContent = `⏰ 從昨天 ${yesterdayRecord.fastingEnd} 開始計算`;
+                    status.style.color = '#3b82f6';
+                }
+            }
+            
+            currentData.fastingHours = hours;
+            document.getElementById('fasting-hours').textContent = hours + ' 小時';
+            
+            // 更新達標狀態 (只在有計算結果時)
+            if (hours > 0) {
                 const status = document.getElementById('fasting-status');
                 if (hours >= settings.fastingTarget) {
                     status.textContent = '✓ 已達標!';
                     status.style.color = '#10b981';
-                } else {
+                } else if (!start || end) { // 不是跨日計算的情況
                     status.textContent = `目標: ${settings.fastingTarget} 小時`;
                     status.style.color = '#6b7280';
                 }
             } else {
-                currentData.fastingHours = 0;
-                document.getElementById('fasting-hours').textContent = '0 小時';
                 document.getElementById('fasting-status').textContent = '';
             }
 
             saveData();
+        }
+        
+        function getPreviousDate(dateString) {
+            const date = new Date(dateString);
+            date.setDate(date.getDate() - 1);
+            return date.toISOString().split('T')[0];
         }
 
         function updateWater() {
