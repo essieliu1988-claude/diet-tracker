@@ -6,15 +6,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="減重衝刺">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi5ris6YeN6KGd5Yi65Y+I6Jyh6KiIIiwic2hvcnRfbmFtZSI6IuabjOmHjeihns+OaXN0IiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZlZjNjNyIsInRoZW1lX2NvbG9yIjoiI2ZiYmYyNCJ9">
-    <title>四週減脂衝刺計畫 - 離線版</title>
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fbbf24;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%23f59e0b;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' rx='40' fill='url(%23grad)'/%3E%3Ctext x='100' y='140' font-size='100' text-anchor='middle' fill='white'%3E🔥%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🔥%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" content="#fbbf24">
+    <title>四週減脂衝刺計畫 - 完整版</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
@@ -22,54 +20,11 @@
             padding-bottom: 80px;
         }
 
-        .install-banner {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 16px 20px;
-            text-align: center;
-            display: none;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .install-banner.show {
-            display: block;
-        }
-
-        .install-text {
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .install-button {
-            background: white;
-            color: #059669;
-            border: none;
-            padding: 8px 24px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
         .header {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: white;
             padding: 24px 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .offline-indicator {
-            background: #ef4444;
-            color: white;
-            padding: 8px;
-            text-align: center;
-            font-size: 12px;
-            display: none;
-        }
-
-        .offline-indicator.show {
-            display: block;
         }
 
         .header-content {
@@ -82,16 +37,8 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 8px;
-        }
-
-        .header-title h1 {
             font-size: 24px;
             font-weight: bold;
-        }
-
-        .header-subtitle {
-            color: #fef3c7;
-            font-size: 14px;
         }
 
         .nav {
@@ -110,30 +57,17 @@
             background: white;
             border-bottom: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
         .nav-button.active {
             border-bottom-color: #fbbf24;
             color: #f59e0b;
-        }
-
-        .nav-button:active {
-            background: #f9fafb;
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .nav-label {
-            font-size: 12px;
-            font-weight: 500;
         }
 
         .container {
@@ -159,6 +93,61 @@
             border: 2px solid #fef3c7;
         }
 
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .date-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .date-btn {
+            padding: 8px 12px;
+            border: 2px solid #fbbf24;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .date-btn:active {
+            background: #fef3c7;
+        }
+
+        .today-btn {
+            padding: 8px 16px;
+            border: none;
+            background: #fbbf24;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .date-input {
+            flex: 1;
+        }
+
+        .date-input input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .date-status {
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
         .completion-card {
             background: white;
             border-radius: 16px;
@@ -171,23 +160,7 @@
         .completion-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 16px;
-        }
-
-        .completion-date {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .completion-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        .completion-score {
-            text-align: right;
         }
 
         .completion-number {
@@ -196,14 +169,7 @@
             color: #f59e0b;
         }
 
-        .completion-text {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-
         .progress-bar {
-            width: 100%;
             height: 12px;
             background: #e5e7eb;
             border-radius: 999px;
@@ -213,15 +179,7 @@
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 999px;
-            transition: width 0.5s ease;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 16px;
+            transition: width 0.5s;
         }
 
         .input-group {
@@ -241,7 +199,6 @@
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.2s;
         }
 
         .input-field:focus {
@@ -264,13 +221,7 @@
             padding: 12px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-top: 12px;
-        }
-
-        .fasting-label {
-            font-size: 14px;
-            color: #6b7280;
         }
 
         .fasting-value {
@@ -287,7 +238,6 @@
             border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
         .check-item:hover {
@@ -302,18 +252,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
             flex-shrink: 0;
         }
 
         .checkbox.checked {
             background: #fbbf24;
             border-color: #fbbf24;
-        }
-
-        .check-label {
-            flex: 1;
-            color: #374151;
         }
 
         .water-progress, .steps-progress {
@@ -334,159 +278,57 @@
         .water-fill {
             height: 100%;
             background: #60a5fa;
-            border-radius: 999px;
             transition: width 0.3s;
         }
 
         .steps-fill {
             height: 100%;
             background: #34d399;
-            border-radius: 999px;
             transition: width 0.3s;
         }
 
-        .weekly-card {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .weekly-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .weekly-title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .weekly-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .stat-box {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
+        .history-item {
+            background: #f9fafb;
             border-radius: 12px;
             padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
 
-        .stat-label {
-            font-size: 12px;
-            color: #fef3c7;
-            margin-bottom: 4px;
+        .history-item:hover {
+            background: #fef3c7;
+            border-color: #fbbf24;
         }
 
-        .stat-value {
-            font-size: 28px;
+        .history-date {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .history-date-text {
             font-weight: bold;
         }
 
-        .photo-upload {
-            border: 2px dashed #fbbf24;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-bottom: 16px;
-        }
-
-        .photo-upload:hover {
-            background: #fef3c7;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .photo-item {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .photo-img {
-            width: 100%;
-            height: 192px;
-            object-fit: cover;
-        }
-
-        .photo-date {
-            padding: 12px;
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 48px 24px;
-            color: #9ca3af;
-        }
-
-        .settings-section {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .settings-title {
+        .history-completion {
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 16px;
+            color: #f59e0b;
         }
 
-        .info-box {
-            background: #fef3c7;
-            border: 2px solid #fbbf24;
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .info-text {
-            font-size: 14px;
+        .history-details {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
             color: #6b7280;
-            line-height: 1.6;
+            flex-wrap: wrap;
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-        }
-
-        .backup-section {
-            background: #dbeafe;
-            border: 2px solid #3b82f6;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        .backup-title {
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .backup-buttons {
-            display: flex;
-            gap: 8px;
         }
 
         .backup-button {
@@ -499,83 +341,57 @@
             background: #3b82f6;
             color: white;
         }
-
-        .backup-button:active {
-            background: #2563eb;
-        }
     </style>
 </head>
 <body>
-    <!-- Offline Indicator -->
-    <div class="offline-indicator" id="offline-indicator">
-        ⚠️ 目前離線模式 - 所有資料儲存在手機本地
-    </div>
-
-    <!-- Install Banner -->
-    <div class="install-banner" id="install-banner">
-        <p class="install-text">📱 將此 app 加入主畫面,離線也能使用!</p>
-        <button class="install-button" onclick="showInstallInstructions()">了解如何安裝</button>
-    </div>
-
-    <!-- Header -->
     <div class="header">
         <div class="header-content">
             <div class="header-title">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-                </svg>
-                <h1>四週減脂衝刺計畫</h1>
+                🔥 四週減脂衝刺計畫
             </div>
-            <p class="header-subtitle">六月日本行倒數!讓我們一起達標 🎯 [離線版]</p>
+            <p style="color: #fef3c7; font-size: 14px;">完全離線 - 資料儲存在手機本地</p>
         </div>
     </div>
 
-    <!-- Navigation -->
     <div class="nav">
         <button class="nav-button active" onclick="switchView('today')">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span class="nav-label">今日戰況</span>
+            📅<br><span>記錄</span>
         </button>
-        <button class="nav-button" onclick="switchView('weekly')">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                <polyline points="17 6 23 6 23 12"/>
-            </svg>
-            <span class="nav-label">本週成績</span>
+        <button class="nav-button" onclick="switchView('history')">
+            📊<br><span>歷史</span>
         </button>
         <button class="nav-button" onclick="switchView('photos')">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-            </svg>
-            <span class="nav-label">體態記錄</span>
+            📸<br><span>照片</span>
         </button>
         <button class="nav-button" onclick="switchView('settings')">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <circle cx="12" cy="12" r="3"/>
-            </svg>
-            <span class="nav-label">設定</span>
+            ⚙️<br><span>設定</span>
         </button>
     </div>
 
     <div class="container">
-        <!-- Today View -->
+        <!-- 記錄頁面 -->
         <div id="today-view" class="view active">
+            <div class="card">
+                <div class="date-selector">
+                    <button class="date-btn" onclick="changeDate(-1)">◀</button>
+                    <div class="date-input">
+                        <input type="date" id="date-selector" onchange="loadSelectedDate()">
+                    </div>
+                    <button class="date-btn" onclick="changeDate(1)">▶</button>
+                    <button class="today-btn" onclick="goToToday()">今天</button>
+                </div>
+                <p class="date-status" id="date-status"></p>
+            </div>
+
             <div class="completion-card">
                 <div class="completion-header">
                     <div>
-                        <p class="completion-date" id="today-date"></p>
-                        <h2 class="completion-title">今日完成度</h2>
+                        <p style="color: #6b7280; font-size: 14px;" id="today-date"></p>
+                        <h2 style="font-size: 24px; font-weight: bold;">當日完成度</h2>
                     </div>
-                    <div class="completion-score">
+                    <div style="text-align: right;">
                         <div class="completion-number" id="completion-rate">0%</div>
-                        <p class="completion-text" id="completion-text">還有進步空間</p>
+                        <p style="font-size: 12px; color: #6b7280; margin-top: 4px;" id="completion-text">還有進步空間</p>
                     </div>
                 </div>
                 <div class="progress-bar">
@@ -596,7 +412,7 @@
                     </div>
                 </div>
                 <div class="fasting-summary">
-                    <span class="fasting-label">斷食時數</span>
+                    <span style="font-size: 14px; color: #6b7280;">斷食時數</span>
                     <span class="fasting-value" id="fasting-hours">0 小時</span>
                 </div>
                 <p id="fasting-status" style="text-align: center; font-size: 12px; color: #6b7280; margin-top: 8px;"></p>
@@ -606,7 +422,7 @@
                 <h3 class="card-title">🛌 作息與基礎</h3>
                 <div class="check-item" onclick="toggleCheck('sleep')">
                     <div class="checkbox" id="check-sleep"></div>
-                    <span class="check-label">昨晚睡滿 7 小時</span>
+                    <span>昨晚睡滿 7 小時</span>
                 </div>
                 <div class="input-group">
                     <label class="input-label">今日飲水量 (目標: 2275-2500cc)</label>
@@ -615,9 +431,6 @@
                         <span style="color: #6b7280; font-weight: 500;">cc</span>
                     </div>
                     <div class="water-progress">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                        </svg>
                         <div class="water-bar">
                             <div class="water-fill" id="water-fill" style="width: 0%"></div>
                         </div>
@@ -629,15 +442,15 @@
                 <h3 class="card-title">🍽️ 飲食防線</h3>
                 <div class="check-item" onclick="toggleCheck('eating-order')">
                     <div class="checkbox" id="check-eating-order"></div>
-                    <span class="check-label">進食順序正確 (水→菜→肉→澱粉)</span>
+                    <span>進食順序正確 (水→菜→肉→澱粉)</span>
                 </div>
                 <div class="check-item" onclick="toggleCheck('good-fat')">
                     <div class="checkbox" id="check-good-fat"></div>
-                    <span class="check-label">攝取好油脂 (酪梨/堅果/橄欖油/鮭魚)</span>
+                    <span>攝取好油脂 (酪梨/堅果/橄欖油/鮭魚)</span>
                 </div>
                 <div class="check-item" onclick="toggleCheck('avoid-bad')">
                     <div class="checkbox" id="check-avoid-bad"></div>
-                    <span class="check-label">避開地雷 (高普林/精緻糖/加工食品)</span>
+                    <span>避開地雷 (高普林/精緻糖/加工食品)</span>
                 </div>
             </div>
 
@@ -667,7 +480,7 @@
             </div>
 
             <div class="card">
-                <h3 class="card-title">📏 體態指標 (每週量1-2次)</h3>
+                <h3 class="card-title">📏 體態指標</h3>
                 <div class="grid-2">
                     <div class="input-group">
                         <label class="input-label">腰圍 (cm)</label>
@@ -681,52 +494,32 @@
             </div>
         </div>
 
-        <!-- Weekly, Photos, Settings views remain the same as previous version -->
-        <div id="weekly-view" class="view">
-            <div class="weekly-card">
-                <div class="weekly-header">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="8" r="7"/>
-                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-                    </svg>
-                    <h2 class="weekly-title">本週戰績</h2>
-                </div>
-                <div class="weekly-stats">
-                    <div class="stat-box">
-                        <p class="stat-label">平均完成度</p>
-                        <p class="stat-value" id="weekly-completion">0%</p>
-                    </div>
-                    <div class="stat-box">
-                        <p class="stat-label">打卡天數</p>
-                        <p class="stat-value" id="weekly-days">0/7</p>
-                    </div>
-                </div>
+        <!-- 歷史頁面 -->
+        <div id="history-view" class="view">
+            <div class="card">
+                <h3 class="card-title">📊 所有記錄</h3>
+                <div id="history-list" style="max-height: 600px; overflow-y: auto;"></div>
+                <p id="no-history" style="display: none; text-align: center; padding: 48px; color: #9ca3af;">還沒有任何記錄</p>
             </div>
         </div>
 
+        <!-- 照片頁面 -->
         <div id="photos-view" class="view">
             <div class="card">
-                <h2 class="card-title">📸 體態變化記錄</h2>
-                <label class="photo-upload">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" style="margin: 0 auto 8px;">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                        <circle cx="12" cy="13" r="4"/>
-                    </svg>
-                    <p style="color: #6b7280; font-weight: 500; margin-bottom: 4px;">點擊上傳今日照片</p>
-                    <p style="font-size: 12px; color: #9ca3af;">建議固定角度與時間拍攝</p>
+                <h3 class="card-title">📸 體態變化記錄</h3>
+                <label style="display: block; border: 2px dashed #fbbf24; border-radius: 12px; padding: 32px; text-align: center; cursor: pointer;">
+                    <p style="font-size: 48px; margin-bottom: 8px;">📷</p>
+                    <p style="color: #6b7280; font-weight: 500;">點擊上傳照片</p>
                     <input type="file" accept="image/*" onchange="addPhoto(event)" style="display: none;">
                 </label>
             </div>
-            <div id="photo-grid" class="photo-grid"></div>
-            <div id="empty-photos" class="empty-state">
-                <p>還沒有照片記錄</p>
-                <p style="font-size: 14px; margin-top: 8px;">開始記錄你的變化吧!</p>
-            </div>
+            <div id="photo-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"></div>
         </div>
 
+        <!-- 設定頁面 -->
         <div id="settings-view" class="view">
-            <div class="settings-section">
-                <h2 class="settings-title">斷食設定</h2>
+            <div class="card">
+                <h3 class="card-title">斷食設定</h3>
                 <div class="input-group">
                     <label class="input-label">每日目標斷食時數</label>
                     <select class="input-field" id="fasting-target" onchange="saveSettings()">
@@ -740,8 +533,8 @@
                 </div>
             </div>
 
-            <div class="settings-section">
-                <h2 class="settings-title">目標設定</h2>
+            <div class="card">
+                <h3 class="card-title">目標設定</h3>
                 <div class="grid-2">
                     <div class="input-group">
                         <label class="input-label">起始腰圍</label>
@@ -758,76 +551,33 @@
                 </div>
             </div>
 
-            <div class="backup-section">
-                <div class="backup-title">
-                    💾 資料備份 (完全離線儲存)
-                </div>
-                <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">
-                    所有資料儲存在您的 iPhone 本地,不會上傳到任何地方
-                </p>
-                <div class="backup-buttons">
+            <div class="card" style="background: #dbeafe; border-color: #3b82f6;">
+                <h3 class="card-title">💾 資料備份</h3>
+                <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">完全離線儲存,不會上傳到任何地方</p>
+                <div style="display: flex; gap: 8px;">
                     <button class="backup-button" onclick="exportData()">匯出備份</button>
                     <button class="backup-button" onclick="document.getElementById('import-file').click()">匯入備份</button>
                 </div>
                 <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display: none;">
             </div>
-
-            <div class="info-box">
-                <p class="info-text">
-                    💡 <strong>小提醒:</strong> 這份工具的設計,是讓你專注在「對的行為」而非數字。每天睡前回顧打勾,保持彈性與好心情才是瘦得久的秘訣!
-                </p>
-            </div>
         </div>
     </div>
 
     <script>
-        // Check online/offline status
-        function updateOnlineStatus() {
-            const indicator = document.getElementById('offline-indicator');
-            if (!navigator.onLine) {
-                indicator.classList.add('show');
-            } else {
-                indicator.classList.remove('show');
-            }
-        }
-
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        // Show install banner on iOS Safari
-        function checkInstallPrompt() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isStandalone = window.navigator.standalone;
-            
-            if (isIOS && !isStandalone) {
-                document.getElementById('install-banner').classList.add('show');
-            }
-        }
-
-        function showInstallInstructions() {
-            alert('📱 如何安裝:\n\n1. 點擊 Safari 下方的「分享」按鈕 (方框+箭頭)\n2. 向下滑動找到「加入主畫面」\n3. 點擊「加入」\n4. 完成!離線也能使用');
-        }
-
-        // Storage keys
-        const STORAGE_KEY = 'diet-tracker-data-v2';
-        const PHOTOS_KEY = 'diet-tracker-photos-v2';
-        const SETTINGS_KEY = 'diet-tracker-settings-v2';
+        const STORAGE_KEY = 'diet-tracker-v3';
+        const PHOTOS_KEY = 'diet-photos-v3';
+        const SETTINGS_KEY = 'diet-settings-v3';
 
         let currentData = {};
         let allRecords = {};
         let photos = [];
-        let settings = {
-            fastingTarget: 14,
-            startWaist: 95,
-            targetWaist: 80,
-            startWeight: 91
-        };
+        let settings = { fastingTarget: 14, startWaist: 95, targetWaist: 80, startWeight: 91 };
+        let currentViewDate = null;
 
         function init() {
-            checkInstallPrompt();
-            updateOnlineStatus();
             loadAllData();
-            updateTodayDate();
+            currentViewDate = getToday();
+            document.getElementById('date-selector').value = currentViewDate;
             loadTodayData();
             loadSettings();
         }
@@ -836,35 +586,67 @@
             return new Date().toISOString().split('T')[0];
         }
 
+        function goToToday() {
+            currentViewDate = getToday();
+            document.getElementById('date-selector').value = currentViewDate;
+            loadTodayData();
+        }
+
+        function changeDate(days) {
+            const date = new Date(currentViewDate);
+            date.setDate(date.getDate() + days);
+            currentViewDate = date.toISOString().split('T')[0];
+            document.getElementById('date-selector').value = currentViewDate;
+            loadTodayData();
+        }
+
+        function loadSelectedDate() {
+            currentViewDate = document.getElementById('date-selector').value;
+            loadTodayData();
+        }
+
         function updateTodayDate() {
-            const date = new Date();
+            const date = new Date(currentViewDate);
             const formatted = date.toLocaleDateString('zh-TW', { 
                 month: 'long', 
                 day: 'numeric', 
                 weekday: 'short' 
             });
             document.getElementById('today-date').textContent = formatted;
+            
+            const statusEl = document.getElementById('date-status');
+            const today = getToday();
+            if (currentViewDate === today) {
+                statusEl.textContent = '📝 正在編輯今天的記錄';
+                statusEl.style.color = '#10b981';
+            } else if (currentViewDate > today) {
+                statusEl.textContent = '⏰ 這是未來的日期';
+                statusEl.style.color = '#f59e0b';
+            } else {
+                const daysAgo = Math.floor((new Date(today) - new Date(currentViewDate)) / (1000 * 60 * 60 * 24));
+                statusEl.textContent = `📅 ${daysAgo} 天前的記錄`;
+                statusEl.style.color = '#6b7280';
+            }
         }
 
         function loadAllData() {
             try {
                 const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) allRecords = JSON.parse(saved);
-
                 const savedPhotos = localStorage.getItem(PHOTOS_KEY);
                 if (savedPhotos) photos = JSON.parse(savedPhotos);
-
                 const savedSettings = localStorage.getItem(SETTINGS_KEY);
                 if (savedSettings) settings = JSON.parse(savedSettings);
             } catch (e) {
-                console.error('載入資料失敗:', e);
+                console.error('載入失敗:', e);
             }
         }
 
         function loadTodayData() {
-            const today = getToday();
-            currentData = allRecords[today] || {
-                date: today,
+            updateTodayDate();
+            
+            currentData = allRecords[currentViewDate] || {
+                date: currentViewDate,
                 fastingStart: '',
                 fastingEnd: '',
                 fastingHours: 0,
@@ -899,8 +681,8 @@
         }
 
         function saveData() {
-            const today = getToday();
-            allRecords[today] = currentData;
+            currentData.date = currentViewDate;
+            allRecords[currentViewDate] = currentData;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(allRecords));
             calculateCompletion();
         }
@@ -923,16 +705,15 @@
         }
 
         function toggleCheck(id) {
-            const key = id.replace(/-/g, '');
             const mapping = {
                 'sleep': 'sleep',
-                'eatingorder': 'eatingOrder',
-                'goodfat': 'goodFat',
-                'avoidbad': 'avoidBad'
+                'eating-order': 'eatingOrder',
+                'good-fat': 'goodFat',
+                'avoid-bad': 'avoidBad'
             };
-            const dataKey = mapping[key];
-            currentData[dataKey] = !currentData[dataKey];
-            updateCheckbox(id, currentData[dataKey]);
+            const key = mapping[id];
+            currentData[key] = !currentData[key];
+            updateCheckbox(id, currentData[key]);
             saveData();
         }
 
@@ -940,7 +721,8 @@
             const checkbox = document.getElementById('check-' + id);
             if (checked) {
                 checkbox.classList.add('checked');
-                checkbox.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+                checkbox.innerHTML = '✓';
+                checkbox.style.color = 'white';
             } else {
                 checkbox.classList.remove('checked');
                 checkbox.innerHTML = '';
@@ -1031,18 +813,74 @@
             }
         }
 
+        function updateHistoryList() {
+            const list = document.getElementById('history-list');
+            const noHistory = document.getElementById('no-history');
+            const dates = Object.keys(allRecords).sort().reverse();
+            
+            if (dates.length === 0) {
+                list.innerHTML = '';
+                noHistory.style.display = 'block';
+                return;
+            }
+            
+            noHistory.style.display = 'none';
+            list.innerHTML = dates.map(date => {
+                const record = allRecords[date];
+                const checks = [
+                    record.fastingHours >= settings.fastingTarget,
+                    record.sleep,
+                    record.water >= 2275,
+                    record.eatingOrder,
+                    record.goodFat,
+                    record.avoidBad,
+                    record.steps >= 6000
+                ];
+                const completion = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+                
+                const formatted = new Date(date).toLocaleDateString('zh-TW', { 
+                    year: 'numeric',
+                    month: 'long', 
+                    day: 'numeric', 
+                    weekday: 'short' 
+                });
+                
+                return `
+                    <div class="history-item" onclick="viewHistoryDate('${date}')">
+                        <div class="history-date">
+                            <span class="history-date-text">${formatted}</span>
+                            <span class="history-completion">${completion}%</span>
+                        </div>
+                        <div class="history-details">
+                            ${record.fastingHours > 0 ? `<span>⏰ ${record.fastingHours}h</span>` : ''}
+                            ${record.water > 0 ? `<span>💧 ${record.water}cc</span>` : ''}
+                            ${record.steps > 0 ? `<span>👟 ${record.steps}</span>` : ''}
+                            ${record.exercise ? `<span>🏃 ${record.exercise}</span>` : ''}
+                            ${record.waist ? `<span>📏 ${record.waist}cm</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewHistoryDate(date) {
+            currentViewDate = date;
+            document.getElementById('date-selector').value = date;
+            switchView('today');
+            loadTodayData();
+        }
+
         function addPhoto(event) {
             const file = event.target.files[0];
             if (!file) return;
             
             const reader = new FileReader();
             reader.onload = function(e) {
-                const photo = {
+                photos.push({
                     id: Date.now(),
                     date: getToday(),
                     data: e.target.result
-                };
-                photos.push(photo);
+                });
                 localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
                 updatePhotosView();
             };
@@ -1052,20 +890,12 @@
 
         function updatePhotosView() {
             const grid = document.getElementById('photo-grid');
-            const empty = document.getElementById('empty-photos');
-            
-            if (photos.length === 0) {
-                grid.innerHTML = '';
-                empty.style.display = 'block';
-            } else {
-                empty.style.display = 'none';
-                grid.innerHTML = photos.sort((a, b) => b.id - a.id).map(photo => `
-                    <div class="photo-item">
-                        <img src="${photo.data}" class="photo-img" alt="體態記錄">
-                        <div class="photo-date">${new Date(photo.date).toLocaleDateString('zh-TW')}</div>
-                    </div>
-                `).join('');
-            }
+            grid.innerHTML = photos.sort((a, b) => b.id - a.id).map(photo => `
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <img src="${photo.data}" style="width: 100%; height: 192px; object-fit: cover;">
+                    <div style="padding: 12px; font-size: 12px; color: #6b7280;">${new Date(photo.date).toLocaleDateString('zh-TW')}</div>
+                </div>
+            `).join('');
         }
 
         function exportData() {
@@ -1081,11 +911,11 @@
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `減重記錄備份_${new Date().toISOString().split('T')[0]}.json`;
+            link.download = `減重記錄_${new Date().toISOString().split('T')[0]}.json`;
             link.click();
             URL.revokeObjectURL(url);
             
-            alert('✅ 備份檔案已下載!');
+            alert('✅ 備份已下載!');
         }
 
         function importData(event) {
@@ -1106,11 +936,11 @@
                         localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
                         localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
                         
-                        alert('✅ 備份已成功匯入!');
+                        alert('✅ 匯入成功!');
                         location.reload();
                     }
                 } catch (err) {
-                    alert('❌ 備份檔案格式錯誤!');
+                    alert('❌ 檔案格式錯誤!');
                 }
             };
             reader.readAsText(file);
@@ -1124,7 +954,9 @@
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(view + '-view').classList.add('active');
             
-            if (view === 'photos') {
+            if (view === 'history') {
+                updateHistoryList();
+            } else if (view === 'photos') {
                 updatePhotosView();
             }
         }
